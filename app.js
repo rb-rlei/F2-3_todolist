@@ -82,6 +82,15 @@ app.post('/todos/:id/edit', (req, res) => {
     .catch((error) => console.log(error))
 })
 
+// Delete
+app.post('/todos/:id/delete', (req, res) => {
+  const id = req.params.id
+  return Todo.findById(id)
+    .then((todo) => todo.remove())
+    .then(() => res.redirect('/'))
+    .catch((err) => console.log(error))
+})
+
 // 啟動監聽
 app.listen(port, (req, res) => {
   console.log('已完成監聽')
