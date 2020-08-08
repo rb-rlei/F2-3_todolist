@@ -3,7 +3,7 @@
 Icon?
 ._*
 
-# npm
+# npm - 
 node_modules
 *.log
 *.gz

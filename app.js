@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
 
+// 拿 models 裡面的資料(之前在 schema 定義的東西)
 const Todo = require('./models/todo')
 const { countDocuments } = require('./models/todo')
 
@@ -10,12 +11,13 @@ const app = express()
 const port = 3000
 
 // mongoose 的連線設定
+// 連線位置：'mongodb://(本機)/(資料庫名字)'
 mongoose.connect('mongodb://localhost/todo-list', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
 
-// 取得連線狀態參數
+// 取得資料庫連線狀態參數
 const db = mongoose.connection
 
 db.on('error', () => {
@@ -40,19 +42,23 @@ app.get('/', (req, res) => {
     .catch((error) => console.log(error))
 })
 
+// Create 新增資料
 app.get('/todos/new', (req, res) => {
   return res.render('new')
 })
 
-// Create
 app.post('/todos', (req, res) => {
-  const name = req.body.name
+  const name = req.body.name //先拿到使用者寫了什麼
 
-  return Todo.create({ name }) // 直接用 mongoose 把資料寫進資料庫
+  // const todo = new Todo({name}) // 這個寫法的意思是先在伺服器先建立把使用者寫什麼，建立一個 todo 變數儲存起來，但尚未推進資料庫，所以還要記得再把東西 「存進」資料庫
+  // return todo.save() // .save() 把東西存進資料庫
+
+  return Todo.create({ name }) // 直接用 mongoose 把資料寫進資料庫 (跟 row 53-54 等價)
     .then(() => res.redirect('/')) // 存進資料庫後，讓使用者 redirect 到首頁
     .catch((error) => console.log(error))
 })
 
+// Read 單筆資料的詳細檢視頁面
 app.get('/todos/:id', (req, res) => {
   const id = req.params.id
   return Todo.findById(id)
@@ -72,10 +78,10 @@ app.get('/todos/:id/edit', (req, res) => {
 
 app.post('/todos/:id/edit', (req, res) => {
   const id = req.params.id
-  const name = req.body.name
+  const name = req.body.name // 使用者新填寫的東西
   return Todo.findById(id)
     .then((todo) => {
-      todo.name = name
+      todo.name = name //重新賦值 todo 資料裡的東西，改為使用者新填寫的東西
       return todo.save()
     })
     .then(() => res.redirect(`/todos/${id}`))
