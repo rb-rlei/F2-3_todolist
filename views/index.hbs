@@ -1,19 +1,30 @@
 {{!-- index 是整個列表頁面/首頁 --}}
 
-<ul>
+<ul class="list-group">
   {{#each todos}}
-  <li>
-    <input type="checkbox" name="isDone" {{#if this.isDone}}checked{{/if}} disabled>
-    {{this.name}}
-    {{!-- 單筆資料的詳細頁面 --}}
-    <a href="./todos/{{this._id}}">detail</a>
-    {{!-- 單筆資料的編輯頁面 --}}
-    <a href="./todos/{{this._id}}/edit">edit</a>
-    {{!-- 刪除的功能，用 form 的原因是這樣可以設定 /delete 的路由，然後用 post 方法來接住，再去真的執行刪除的程式碼--}}
-    {{!-- 再重新設計路由後，透過 method-override 來將路由改成 DELETE --}}
-    <form action="./todos/{{this._id}}?_method=DELETE" method="POST" style="display: inline;">
-      <button type="submit">delete</button>
-    </form>
+  <li class="list-group-item">
+    <div class="row">
+
+      <div class="col-auto mr-auto">
+        <input style="vertical-align: middle;" type="checkbox" name="isDone" {{#if this.isDone}}checked{{/if}} disabled>
+        <h4 style="display: inline; vertical-align: middle;">{{this.name}}</h4>
+      </div>
+
+      <div class="col-auto">
+        {{!-- 單筆資料的詳細頁面 --}}
+        <a class="btn btn-secondary" href="./todos/{{this._id}}">detail</a>
+        {{!-- 單筆資料的編輯頁面 --}}
+        <a class="btn btn-success" href="./todos/{{this._id}}/edit">edit</a>
+        {{!-- 刪除的功能，用 form 的原因是這樣可以設定 /delete 的路由，然後用 post 方法來接住，再去真的執行刪除的程式碼--}}
+        {{!-- 再重新設計路由後，透過 method-override 來將路由改成 DELETE --}}
+        <form action="./todos/{{this._id}}?_method=DELETE" method="POST" style="display: inline;">
+          <button class="btn btn-danger" type="submit">delete</button>
+        </form>
+      </div>
+
+    </div>
+
+
   </li>
   {{/each}}
 </ul>
