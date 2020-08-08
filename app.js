@@ -78,10 +78,14 @@ app.get('/todos/:id/edit', (req, res) => {
 
 app.post('/todos/:id/edit', (req, res) => {
   const id = req.params.id
-  const name = req.body.name // 使用者新填寫的東西
+  // const name = req.body.name // 使用者新填寫的東西
+  // const isDone = req.body.isDone // 使用者是否標注此 todo 為完成狀態
+  const { name, isDone } = req.body // 用解構賦值來存取使用者資料 (與前兩行等價)
+
   return Todo.findById(id)
     .then((todo) => {
       todo.name = name //重新賦值 todo 資料裡的東西，改為使用者新填寫的東西
+      todo.isDone = isDone === 'on' // isDone === 'on' 這段就會是一個 true false statement，所以不需要再寫一次 if 來判斷
       return todo.save()
     })
     .then(() => res.redirect(`/todos/${id}`))

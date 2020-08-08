@@ -6,6 +6,7 @@
 <ul>
   {{#each todos}}
   <li>
+    <input type="checkbox" name="isDone" {{#if this.isDone}}checked{{/if}} disabled>
     {{this.name}}
     {{!-- 單筆資料的詳細頁面 --}}
     <a href="./todos/{{this._id}}">detail</a>
