@@ -13,7 +13,8 @@
     {{!-- 單筆資料的編輯頁面 --}}
     <a href="./todos/{{this._id}}/edit">edit</a>
     {{!-- 刪除的功能，用 form 的原因是這樣可以設定 /delete 的路由，然後用 post 方法來接住，再去真的執行刪除的程式碼--}}
-    <form action="./todos/{{this._id}}/delete" method="POST" style="display: inline;">
+    {{!-- 再重新設計路由後，透過 method-override 來將路由改成 DELETE --}}
+    <form action="./todos/{{this._id}}?_method=DELETE" method="POST" style="display: inline;">
       <button type="submit">delete</button>
     </form>
   </li>
