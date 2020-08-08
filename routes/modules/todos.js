@@ -54,13 +54,13 @@ router.put('/:id', (req, res) => {
       todo.isDone = isDone === 'on' // isDone === 'on' 這段就會是一個 true false statement，所以不需要再寫一次 if 來判斷
       return todo.save()
     })
-    .then(() => res.redirect(`/${id}`))
+    .then(() => res.redirect(`/todos/${id}`))
     .catch((error) => console.log(error))
 })
 
 //NOTE - http 的 method 其實不能直接用 PUT/DELETE 來設定，所以雖然我們改用 RESTFUL 的呈現方式，但需要用另外一個套件來幫助我們改路由設定 - method-override
 // Delete
-router.delete('/todos/:id', (req, res) => {
+router.delete('/:id', (req, res) => {
   const id = req.params.id
   return Todo.findById(id)
     .then((todo) => todo.remove())
