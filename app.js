@@ -10,7 +10,9 @@ const routes = require('./routes')
 require('./config/mongoose')
 
 const app = express()
-const port = 3000
+
+// ## : 將 port 參數改為 heroku
+const PORT = process.env.PORT || 3000
 
 // 引入模板引擎
 app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
@@ -23,6 +25,6 @@ app.use(methodOverride('_method'))
 app.use(routes)
 
 // 啟動監聽
-app.listen(port, (req, res) => {
-  console.log('已完成監聽')
+app.listen(PORT, (req, res) => {
+  console.log(`已完成監聽，running on: http://localhost:${PORT}`)
 })
